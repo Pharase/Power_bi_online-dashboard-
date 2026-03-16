@@ -23,7 +23,7 @@ def get_latest_file(directory, file_pattern):
     return max(files, key=os.path.getmtime)  # Get the most recently modified file
     
 REPORT_DIRS = {
-        "Summary Report": (r"Z:\Alpha\Programing_source\Phone_report", "Phone_report_*bi.xlsx")
+        "Summary Report": (r"data\report\Phone_report", "Phone_report_*bi.xlsx")
     }
 
 # Main excel for BI dashboard
