@@ -23,7 +23,7 @@ def get_latest_file(directory, file_pattern):
     return max(files, key=os.path.getmtime)  # Get the most recently modified file
     
 REPORT_DIRS = {
-        "Summary Report": (r"data\report\Phone_report", "Phone_report_*bi.xlsx")
+        "Summary Report": (r"data\report", "report_*bi.xlsx")
     }
 
 # Main excel for BI dashboard
@@ -42,9 +42,9 @@ if ATTACHMENT_PATHS:
         with open(file_path, "rb") as file:
             file_data = file.read()
             file_name = os.path.basename(file_path)
-        print(f"Check with latest phone report: {file_name}")
+        print(f"Check with latest report: {file_name}")
 else:
-    print("No valid Phone report files found.")
+    print("No valid report files found.")
     
 new_df = pd.read_excel(file_path,sheet_name='Sheet1')
 print(new_report)
@@ -57,9 +57,9 @@ new_df.rename(columns={
 
 # Step 3: Add missing columns if not exist
 final_cols = [
-    'map_debtor', 'pamoareport_resultcode_id', 'map_result',
-    'pamoareport_reportdate', 'project_portname', 'pamoareport_ppdate',
-    'pamoareport_pddate', 'pamoareport_followupdate', 'created_at',
+    'map_debtor', 'report_resultcode_id', 'map_result',
+    'report_reportdate', 'project_portname', 'report_ppdate',
+    'report_pddate', 'report_followupdate', 'created_at',
     'AQ_date', 'start_date', 'end_date', 'map_oa', 'fix_date'
 ]
 
@@ -117,7 +117,7 @@ summary_info = summary_info[['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']]
 
 summary_info.columns = [
     'map_debtor',            # A
-    'pamcode',               # B
+    'idcode',               # B
     'OA',                    # C
     'year',                  # D
     'month',                 # E
@@ -132,7 +132,7 @@ summary_pay_df = pd.read_excel(summary_pay, sheet_name='transaction_record', dty
 
 # Step 8: Create Sheet2
 transaction_df = pd.DataFrame()
-transaction_df['A'] = summary_pay_df['pam_code']
+transaction_df['A'] = summary_pay_df['idcode']
 transaction_df['B'] = summary_pay_df['code']
 transaction_df['C'] = summary_pay_df['TR_Date']
 transaction_df['D'] = pd.to_datetime(summary_pay_df['Pay_Date'], errors='coerce')
@@ -150,7 +150,7 @@ transaction_df['H'] = (
 )
 
 transaction_df.columns = [
-    'pam_code',           
+    'idcode',           
     'code',               
     'TR_date',               
     'Pay_Date',               
